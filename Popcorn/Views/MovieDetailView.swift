@@ -1,0 +1,330 @@
+//
+//  MovieDetailView.swift
+//  Popcorn
+//
+//  Created by Rasmus Nielsen on 19/02/2023.
+//
+
+import SwiftUI
+
+
+extension UINavigationController: UIGestureRecognizerDelegate {
+  override open func viewDidLoad() {
+      super.viewDidLoad()
+      interactivePopGestureRecognizer?.delegate = self
+  }
+  
+public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+  return true
+  }
+}
+
+struct MovieDetailView: View {
+    
+    let movieId: Int
+    @ObservedObject private var movieDetailState = MovieDetailState()
+    
+    var body: some View {
+        ZStack {
+            LoadingView(isLoading: self.movieDetailState.isLoading, error: self.movieDetailState.error) {
+                self.movieDetailState.loadMovie(id: self.movieId)
+            }
+            
+            if movieDetailState.movie != nil {
+                MovieDetailListView(movie: self.movieDetailState.movie!)
+            }
+        }
+        .preferredColorScheme(.dark)
+        .navigationBarHidden(true)
+        .onAppear {
+            self.movieDetailState.loadMovie(id: self.movieId)
+        }
+    }
+}
+
+
+struct MovieDetailListView: View {
+  
+  let movie: Movie
+  @State private var selectedTrailer: MovieVideo?
+  
+  let imageLoader = ImageLoader()
+  let imageLoader2 = ImageLoader()
+
+  var body: some View {
+    
+    ScrollView(showsIndicators: false){
+      VStack{
+        
+        let height = 900 * 0.45
+        GeometryReader{ proxy in
+          
+          let size = proxy.size
+          let minY = proxy.frame(in: .named("SCROLL")).minY
+          let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
+          
+          //Image("backdrop")
+          MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
+            .frame(width: size.width, height: size.height + (minY > 0 ? minY : 0 ))
+            .clipped()
+            .overlay(content: {
+              ZStack(alignment: .bottom) {
+                // MARK: - Gradient Overlay
+                Rectangle()
+                  .fill(
+                    .linearGradient(colors: [
+                      .black.opacity(0 - progress),
+                      .black.opacity(0.1 - progress),
+                      .black.opacity(0.3 - progress),
+                      .black.opacity(0.5 - progress),
+                      .black.opacity(0.8 - progress),
+                      .black.opacity(1),
+                    ], startPoint: .top, endPoint: .bottom)
+                  )
+                VStack(spacing: 0) {
+                  HStack{
+                    MoviePosterImage(imageLoader: imageLoader2, imageURL: self.movie.posterURL)
+                      .padding()
+                    VStack{
+                      HStack{
+                        Text(movie.title)
+                          .lineLimit(3)
+                          .font(Font.custom("Outfit-SemiBold", size: 32))
+                          .lineSpacing(-12)
+                        Spacer()
+                      }
+                      HStack{
+                        Text(movie.yearText)
+                        Text(" ")
+                        Text(movie.ratingText).foregroundColor(Color("gold"))
+                        Text(movie.scoreText)
+              
+                        Spacer()
+                      }
+                    }
+                  }
+                }
+                .opacity(1 + (progress > 0 ? -progress : progress))
+                .padding(.bottom, 0)
+                
+                // Moving with Scroll View
+                
+                .offset(y: minY < 0 ? minY : 0 )
+              }
+            })
+            .offset(y: -minY)
+        }.padding(.top, -34)
+        
+        .frame(height: height)
+        
+        
+        //MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
+        
+        
+        HStack {
+          Text(movie.genreText)
+          Text("·")
+          Text(movie.yearText)
+          Text(movie.durationText)
+          Spacer()
+        }.padding(.leading, 20) .font(Font.custom("Outfit-Regular", size: 16))
+        
+        //Link(movie.imdb_id ?? " ", destination: URL(string: "https://www.imdb.com/\(movie.imdb_id)")!) // 1
+         
+        
+        Text(movie.overview)
+          .font(Font.custom("Outfit-Regular", size: 16))
+          .lineSpacing(5)
+          .padding()
+        
+        
+        HStack(alignment: .top, spacing: 4) {
+          if movie.cast != nil && movie.cast!.count > 0 {
+            VStack(alignment: .leading, spacing: 4) {
+              Text("Starring").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold"))
+              ForEach(self.movie.cast!.prefix(9)) { cast in
+                Text(cast.name)
+              }
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+            Spacer()
+            
+          }
+          
+          if movie.crew != nil && movie.crew!.count > 0 {
+            VStack(alignment: .leading, spacing: 4) {
+              if movie.directors != nil && movie.directors!.count > 0 {
+                Text("Director(s)").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold"))
+                ForEach(self.movie.directors!.prefix(2)) { crew in
+                  Text(crew.name)
+                }
+              }
+              
+              if movie.producers != nil && movie.producers!.count > 0 {
+                Text("Producer(s)").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold"))
+                  .padding(.top)
+                ForEach(self.movie.producers!.prefix(2)) { crew in
+                  Text(crew.name)
+                }
+              }
+              
+              if movie.screenWriters != nil && movie.screenWriters!.count > 0 {
+                Text("Screenwriter(s)").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold"))
+                  .padding(.top)
+                ForEach(self.movie.screenWriters!.prefix(2)) { crew in
+                  Text(crew.name)
+                }
+              }
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+          }
+        }.padding()
+        
+        
+        
+        if movie.youtubeTrailers != nil && movie.youtubeTrailers!.count > 0 {
+          HStack() {
+            Text("Trailers").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold")).padding()
+            Spacer()
+          }
+          ScrollView(.horizontal) {
+              HStack(spacing: 0) {
+                  // Add views to be horizontally scrolled here
+                
+                ForEach(movie.youtubeTrailers!) { trailer in
+                  Button(action: {
+                    self.selectedTrailer = trailer
+                  }) {
+                      AsyncImage(url: trailer.youtubeImageURL!) { image in
+                        image
+                          .resizable()
+                          .scaledToFit()
+                          .cornerRadius(8)
+                          .frame(width: 300)
+                        
+                          .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                              .stroke(.white.opacity(0.1), lineWidth: 1)
+                          )
+                          .padding(.horizontal)
+                        
+                      } placeholder: {}
+                    
+                  }
+                }
+              }
+          }.scrollIndicators(.hidden)
+            .sheet(item: self.$selectedTrailer) { trailer in
+              SafariView(url: trailer.youtubeURL!)
+            }
+          
+          HStack() {
+            Text("Reviews").font(Font.custom("Outfit-Regular", size: 16)).foregroundColor(Color("gold")).padding()
+            Spacer()
+          }
+          
+          VStack{
+                 if movie.userreviews != nil {
+              ForEach(movie.userreviews!) { reviews in
+                Text(reviews.content).padding()
+                Image("sep").resizable().scaledToFit()
+
+                
+              }
+            }
+        
+          }
+          
+        }
+
+            
+          }
+          
+      
+      Spacer().frame(height: 100)
+
+      
+    }.font(Font.custom("Outfit-Regular", size: 16))
+  }
+}
+
+struct MovieDetailImage: View {
+    @ObservedObject var imageLoader: ImageLoader
+    let imageURL: URL
+    
+    var body: some View {
+        ZStack {
+            Rectangle().fill(Color.black.opacity(0.3))
+          if self.imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .opacity(1)
+            }
+          Rectangle()                         // Shapes are resizable by default
+                 .foregroundColor(.clear)        // Making rectangle transparent
+                 .background(LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .top, endPoint: .bottom))
+          
+       }
+        .onAppear {
+            self.imageLoader.loadImage(with: self.imageURL)
+        }
+    }
+}
+
+// Trailer
+
+struct MovieTrailerView: View {
+    @ObservedObject var imageLoader: ImageLoader
+    let imageURL: URL
+    
+    var body: some View {
+        ZStack {
+            Rectangle().fill(Color.black.opacity(0.3))
+          if self.imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
+              .scaledToFit()
+              .cornerRadius(8)
+            }
+       }
+        .onAppear {
+            self.imageLoader.loadImage(with: self.imageURL)
+        }
+    }
+}
+
+// Trailer
+
+struct MoviePosterImage: View {
+    @ObservedObject var imageLoader: ImageLoader
+    let imageURL: URL
+    
+    var body: some View {
+        ZStack {
+            Rectangle().fill(Color.gray.opacity(0.3))
+          if self.imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
+                    .resizable()
+            }
+          
+        }
+        .frame(width: 100, height: 150)
+        .cornerRadius(8)
+        
+        .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                  .stroke(.white.opacity(0.1), lineWidth: 1)
+            )
+        .onAppear {
+            self.imageLoader.loadImage(with: self.imageURL)
+        }
+    }
+}
+
+struct MovieDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            MovieDetailView(movieId: Movie.stubbedMovie.id)
+        }
+    }
+}
