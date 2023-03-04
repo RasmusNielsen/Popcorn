@@ -69,13 +69,18 @@ struct BrowseView: View {
             }
           }
           // Sci-Fi
+          
                     
         }
+        
+        Spacer()
+               .frame(height: 100)
+        
       }.navigationBarTitle("Browse")
     
          .onAppear {
            self.genreAdventureState.loadDiscoveryMovies(query: "36, 28",  sort:"popularity.desc", with: .trending)
-           self.genreActioneState.loadDiscoveryMovies(query: "35, 10751, 10749, 18",  sort:"popularity.desc", with: .trending)
+           self.genreActioneState.loadDiscoveryMovies(query: "10751, 10749",  sort:"popularity.desc", with: .trending)
            self.genreSciFiState.loadDiscoveryMovies(query: "878, 18",  sort:"popularity.desc", with: .trending)
            self.genreHistoryState.loadDiscoveryMovies(query: "36",  sort:"popularity.desc", with: .trending)
            self.genreAnimationState.loadDiscoveryMovies(query: "16",  sort:"popularity.desc", with: .trending)
