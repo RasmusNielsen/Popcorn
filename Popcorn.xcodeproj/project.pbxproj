@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A785D90929B3588C00EA698B /* SavedMoviesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A785D90829B3588C00EA698B /* SavedMoviesStorage.swift */; };
 		C620139829A049E8002F6143 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C620139729A049E8002F6143 /* ActivityIndicatorView.swift */; };
 		C620139A29A04C50002F6143 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C620139929A04C50002F6143 /* LoadingView.swift */; };
 		C620139C29A051A7002F6143 /* MovieGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C620139B29A051A7002F6143 /* MovieGridView.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A785D90829B3588C00EA698B /* SavedMoviesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedMoviesStorage.swift; sourceTree = "<group>"; };
 		C620139729A049E8002F6143 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		C620139929A04C50002F6143 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C620139B29A051A7002F6143 /* MovieGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 		C6E43D46299950F300EFE969 /* Popcorn */ = {
 			isa = PBXGroup;
 			children = (
+				A785D90829B3588C00EA698B /* SavedMoviesStorage.swift */,
 				C64C48E5299B962900CA6D09 /* Bindings */,
 				C627A39D299BB36C005C6B31 /* Resources */,
 				C64C48E2299B953B00CA6D09 /* Views */,
@@ -308,6 +311,7 @@
 				C627A3A7299C1523005C6B31 /* MovieListState.swift in Sources */,
 				C6E43D4A299950F300EFE969 /* ContentView.swift in Sources */,
 				C620139A29A04C50002F6143 /* LoadingView.swift in Sources */,
+				A785D90929B3588C00EA698B /* SavedMoviesStorage.swift in Sources */,
 				C6C19E4629AA963600268CCD /* HeaderSubView.swift in Sources */,
 				C6E43D48299950F300EFE969 /* PopcornApp.swift in Sources */,
 				C62013A529A24A40002F6143 /* SplashScreenView.swift in Sources */,
