@@ -12,7 +12,7 @@ struct MoviePosterCard: View {
   let borderRadius: CGFloat = 8;
 
   
-  let movie: Movie
+  let url: URL
   @ObservedObject var imageLoader = ImageLoader()
   
   var body: some View {
@@ -33,13 +33,13 @@ struct MoviePosterCard: View {
           )
 
     .onAppear {
-        self.imageLoader.loadImage(with: self.movie.posterURL)
+        self.imageLoader.loadImage(with: self.url)
       }
   }
 }
 
 struct MoviePosterCard_Previews: PreviewProvider {
     static var previews: some View {
-      MoviePosterCard(movie: Movie.stubbedMovie)
+        MoviePosterCard(url: Movie.stubbedMovie.posterURL)
     }
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MovieGridView {
-    let title: String
     let movies: [Movie]
 }
 
@@ -20,7 +19,7 @@ extension MovieGridView: View {
         LazyVGrid(columns: columns, spacing: spacing) {
             ForEach(self.movies) { movie in
                 NavigationLink(destination: MovieDetailView(movieId: movie.id)){
-                    MoviePosterCard(movie: movie)
+                    MoviePosterCard(url: movie.posterURL)
                 }
             }
         }
