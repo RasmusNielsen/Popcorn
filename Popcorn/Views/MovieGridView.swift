@@ -7,31 +7,25 @@
 
 import SwiftUI
 
-struct MovieGridView: View {
-  
-  let spacing: CGFloat = 10;
-  let title: String
-  let movies: [Movie]
-  
-  @State var numberOfRows = 2
-  
+struct MovieGridView {
+    let title: String
+    let movies: [Movie]
+}
 
-  var body: some View {
-    
-    let columns = Array (
-      repeating: GridItem(.flexible(), spacing: spacing),
-      count: numberOfRows)
-    
-      LazyVGrid(columns: columns, spacing: spacing) {
-        ForEach(self.movies) { movie in
-          NavigationLink(destination: MovieDetailView(movieId: movie.id)){
-            MoviePosterCard(movie: movie)
-          }
+extension MovieGridView: View {
+    var body: some View {
+        let spacing: CGFloat = 10
+        let numberOfRows: Int = 2
+        let columns = Array(repeating: GridItem(.flexible(), spacing: spacing), count: numberOfRows)
+        LazyVGrid(columns: columns, spacing: spacing) {
+            ForEach(self.movies) { movie in
+                NavigationLink(destination: MovieDetailView(movieId: movie.id)){
+                    MoviePosterCard(movie: movie)
+                }
+            }
         }
-      }.padding()
-      
-      Spacer().frame(height: 70)
-      
+        .padding()
+        Spacer().frame(height: 70)
     }
   
 }
