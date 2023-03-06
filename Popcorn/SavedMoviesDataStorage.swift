@@ -1,39 +1,39 @@
 //
-//  SavedMoviesStorage.swift
+//  SavedMoviesDataStorage.swift
 //  Popcorn
 //
-//  Created by Kasper Kronborg on 04/03/2023.
+//  Created by Kasper Kronborg on 06/03/2023.
 //
 
 import Foundation
 
-class SavedMoviesStorage {
+final class SavedMoviesDataStorage {
     static private let decoder = PropertyListDecoder()
     static private let encoder = PropertyListEncoder()
-    
+
     static private func fileUrl() throws -> URL {
         let dir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let url = dir.appending(path: "SavedMovies.plist")
         return url
     }
-    
+
     static private func fileData() -> Data? {
         guard let fileURL = try? Self.fileUrl() else { return nil }
         return try? Data(contentsOf: fileURL)
     }
-    
-    static public func get() -> Set<Int> {
+
+    static func load() -> Array<SavedMovie> {
         guard
             let data = Self.fileData(),
-            let movieIds = try? Self.decoder.decode(Set<Int>.self, from: data) else {
-            return Set<Int>()
+            let movies = try? Self.decoder.decode(Array<SavedMovie>.self, from: data) else {
+            return Array<SavedMovie>()
         }
-        return movieIds
+        return movies
     }
-    
-    static public func set(movieIds: Set<Int>) throws {
+
+    static func save(movies: Array<SavedMovie>) throws {
         let fileUrl = try Self.fileUrl()
-        let data = try Self.encoder.encode(movieIds)
+        let data = try Self.encoder.encode(movies)
         try data.write(to: fileUrl)
     }
 }

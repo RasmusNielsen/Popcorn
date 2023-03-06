@@ -47,6 +47,7 @@ struct MovieDetailListView: View {
   
   let movie: Movie
   @State private var selectedTrailer: MovieVideo?
+    @EnvironmentObject private var savedMovies: SavedMoviesState
   
   let imageLoader = ImageLoader()
   let imageLoader2 = ImageLoader()
@@ -85,6 +86,9 @@ struct MovieDetailListView: View {
                   HStack{
                     MoviePosterImage(imageLoader: imageLoader2, imageURL: self.movie.posterURL)
                       .padding()
+                      .onTapGesture {
+                          self.savedMovies.save(movie: self.movie)
+                      }
                     VStack{
                       HStack{
                         Text(movie.title)

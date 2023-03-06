@@ -33,68 +33,64 @@ struct ContentView: View {
   @State private var showTabbar = true
 
 
-  var body: some View {
-    ZStack{
-      
-        NavigationStack {
-          
-          // TAB POPULAR
-          if selectedTab == .popular {
-            ScrollView(showsIndicators: false){
-              
-              if nowPlayingStatePopular.movies != nil {
-                MovieGridView(title: "", movies: nowPlayingStatePopular.movies!)
-              }
-              
-            }.refreshable {
-                self.nowPlayingStatePopular.loadMovies(with: .popular)
-              }
-              .navigationBarTitle("Popular")
-          }
-          // TAB POPULAR
+    @StateObject private var savedMovies = SavedMoviesState()
+    
+    var body: some View {
+        ZStack {
+            NavigationStack {
+                // TAB POPULAR
+                if selectedTab == .popular {
+                    ScrollView(showsIndicators: false) {
+                        if nowPlayingStatePopular.movies != nil {
+                            MovieGridView(movies: nowPlayingStatePopular.movies!)
+                        }
+                    }
+                    .refreshable {
+                        self.nowPlayingStatePopular.loadMovies(with: .popular)
+                    }
+                    .navigationBarTitle("Popular")
+                }
+                // TAB POPULAR
+                
+                // TAB ESSENTIALS
+                if selectedTab == .essentials {
+                    SavedMoviesView()
+//                    ScrollView(showsIndicators: false) {
+//                        if nowPlayingStateEssentials.movies != nil {
+//                            MovieGridView(movies: nowPlayingStateEssentials.movies!)
+//                        }
+//                    }
+//                    .refreshable {
+//                        self.nowPlayingStateEssentials.loadMovies(with: .upcoming)
+//                    }
+//                    .navigationBarTitle("Upcoming")
+                }
+                // TAB ESSENTIALS
+                
+                // TAB TRENDING
+                if selectedTab == .trending {
+                    BrowseView()
+                }
+                // TAB ESSENTIALS
+                
+                // SEARCH
+                if selectedTab == .search {
+                    MovieSearchView()
+                    //MovieSearchView()
+                }
+                // SEARCH
+            }
+            .environment(\.colorScheme, .dark)
+            .onAppear{self.nowPlayingStatePopular.loadMovies(with: .popular)}
+            .onAppear{self.nowPlayingStateEssentials.loadMovies(with: .upcoming)}
+            .onAppear{self.nowPlayingStateTrending.loadTrendingMovies(with: .trending)}
 
-          // TAB ESSENTIALS
-          if selectedTab == .essentials {
-            ScrollView(showsIndicators: false){
-              
-              if nowPlayingStateEssentials.movies != nil {
-                MovieGridView(title: "", movies: nowPlayingStateEssentials.movies!)
-              }
-              
-            }.navigationBarTitle("Upcoming")
-              .refreshable {
-                self.nowPlayingStateEssentials.loadMovies(with: .upcoming)
-              }
-          }
-          // TAB ESSENTIALS
-          
-          // TAB TRENDING
-          if selectedTab == .trending {
-            BrowseView()
-          }
-          // TAB ESSENTIALS
-          
-          // SEARCH
-          if selectedTab == .search {
-            MovieSearchView()
-            //MovieSearchView()
-          }
-          // SEARCH
-          
-          
-          
-        }      .environment(\.colorScheme, .dark)
-        
-        .onAppear{self.nowPlayingStatePopular.loadMovies(with: .popular)}
-        .onAppear{self.nowPlayingStateEssentials.loadMovies(with: .upcoming)}
-        .onAppear{self.nowPlayingStateTrending.loadTrendingMovies(with: .trending)}
-
-      VStack{
-        Spacer()
-        if (showTabbar){
-          CustomTabbar(selectedTab: $selectedTab)}
-      }
-      }.preferredColorScheme(.dark)
-
+            VStack {
+                Spacer()
+                if (showTabbar) { CustomTabbar(selectedTab: $selectedTab) }
+            }
+        }
+        .preferredColorScheme(.dark)
+        .environmentObject(savedMovies)
     }
 }
