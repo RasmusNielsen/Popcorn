@@ -7,13 +7,19 @@
 
 import Foundation
 
+protocol MovieLike: Identifiable {
+    var id: Int { get }
+    var title: String { get }
+    var artworkUrl: URL { get }
+}
+
 struct MovieResponse: Decodable {
     
     let results: [Movie]
 }
 
 
-struct Movie: Decodable, Identifiable, Hashable {
+struct Movie: Decodable, Identifiable, Hashable, MovieLike {
     static func == (lhs: Movie, rhs: Movie) -> Bool {
         lhs.id == rhs.id
     }
@@ -52,6 +58,8 @@ struct Movie: Decodable, Identifiable, Hashable {
         formatter.allowedUnits = [.hour, .minute]
         return formatter
     }()
+    
+    var artworkUrl: URL { self.posterURL }
     
     var backdropURL: URL {
         return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath ?? "")")!
