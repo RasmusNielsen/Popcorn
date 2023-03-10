@@ -11,9 +11,11 @@ struct SavedMoviesView: View {
     @EnvironmentObject private var savedMovies: SavedMoviesState
     var body: some View {
         ScrollView(showsIndicators: false) {
-            MovieGridView(movies: self.savedMovies.movies)
+          // check if movies saved
+          if (self.savedMovies.movies.count == 0){}
+          MovieGridView(movies: self.savedMovies.movies, numberOfRows: 4)
         }
-        .navigationBarTitle("Saved Movies")
+        .navigationBarTitle("Saved")
     }
 }
 

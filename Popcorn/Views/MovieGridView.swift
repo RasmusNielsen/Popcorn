@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MovieGridView<T: MovieLike> {
     let movies: Array<T>
+    let numberOfRows: Int
 }
 
 extension MovieGridView: View {
     var body: some View {
         let spacing: CGFloat = 10
-        let numberOfRows: Int = 2
         let columns = Array(repeating: GridItem(.flexible(), spacing: spacing), count: numberOfRows)
         LazyVGrid(columns: columns, spacing: spacing) {
             ForEach(self.movies) { movie in

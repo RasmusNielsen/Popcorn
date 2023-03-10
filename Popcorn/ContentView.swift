@@ -42,7 +42,7 @@ struct ContentView: View {
                 if selectedTab == .popular {
                     ScrollView(showsIndicators: false) {
                         if nowPlayingStatePopular.movies != nil {
-                            MovieGridView(movies: nowPlayingStatePopular.movies!)
+                            MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2)
                         }
                     }
                     .refreshable {

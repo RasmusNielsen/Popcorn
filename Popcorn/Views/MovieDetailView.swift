@@ -47,7 +47,7 @@ struct MovieDetailListView: View {
   
   let movie: Movie
   @State private var selectedTrailer: MovieVideo?
-    @EnvironmentObject private var savedMovies: SavedMoviesState
+  @EnvironmentObject private var savedMovies: SavedMoviesState
   
   let imageLoader = ImageLoader()
   let imageLoader2 = ImageLoader()
@@ -124,6 +124,26 @@ struct MovieDetailListView: View {
         
         //MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
         
+        // Button
+
+        Button {
+            //action
+        } label: {
+          Spacer()
+          Image("ic-save")
+            .resizable()
+            .scaledToFit()
+            .frame(width:34, height: 34)
+          Text("Bookmark")
+          Spacer()
+        }
+        .tint(Color.white.opacity(0.1))
+        .buttonStyle(.borderedProminent)
+        .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.1), lineWidth: 1)
+            )
+        .padding()
         
         HStack {
           Text(movie.genreText)
