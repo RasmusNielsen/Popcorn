@@ -53,7 +53,7 @@ struct MovieDetailListView: View {
   let imageLoader2 = ImageLoader()
 
   var body: some View {
-    
+    let isSaved = self.savedMovies.isSaved(movieId: self.movie.id)
     ScrollView(showsIndicators: false){
       VStack{
         
@@ -86,9 +86,6 @@ struct MovieDetailListView: View {
                   HStack{
                     MoviePosterImage(imageLoader: imageLoader2, imageURL: self.movie.posterURL)
                       .padding()
-                      .onTapGesture {
-                          self.savedMovies.save(movie: self.movie)
-                      }
                     VStack{
                       HStack{
                         Text(movie.title)
@@ -127,10 +124,10 @@ struct MovieDetailListView: View {
         // Button
 
         Button {
-            //action
+            isSaved ? self.savedMovies.delete(movieId: self.movie.id) : self.savedMovies.save(movie: self.movie)
         } label: {
           Spacer()
-          Image("ic-save")
+            Image(isSaved ? "ic-saved" : "ic-save")
             .resizable()
             .scaledToFit()
             .frame(width:34, height: 34)

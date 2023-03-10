@@ -13,7 +13,9 @@ class SavedMoviesState: ObservableObject {
     @Published private var storage: Set<SavedMovie> = Set(SavedMoviesDataStorage.load())
     
     public init() {
-        self.$storage.map { Array($0) }.assign(to: &self.$movies)
+        self.$storage
+            .map { Array($0) }
+            .assign(to: &self.$movies)
     }
         
     public func save(movie: Movie) {
@@ -21,5 +23,17 @@ class SavedMoviesState: ObservableObject {
         self.storage.insert(savedMovie)
         // TODO: Better error handling if save should fail.
         try? SavedMoviesDataStorage.save(movies: Array(self.storage))
+    }
+    
+    public func delete(movieId: Int) {
+        if let idx = self.storage.firstIndex(where: { $0.id == movieId }) {
+            self.storage.remove(at: idx)
+            // TODO: Better error handling if save should fail.
+            try? SavedMoviesDataStorage.save(movies: Array(self.storage))
+        }
+    }
+    
+    public func isSaved(movieId: Int) -> Bool {
+        return self.storage.firstIndex { $0.id == movieId } != nil
     }
 }
