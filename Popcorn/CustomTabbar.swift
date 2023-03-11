@@ -47,7 +47,7 @@ struct CustomTabbar: View {
           selectedTab = .search
           impactLight.impactOccurred()
         } label: {
-          TabbarButton(buttonText: "Search", imageName: "ic-search", isActive:  selectedTab == .search)
+          TabbarButton(buttonText: "Saved", imageName: "ic-saved", isActive:  selectedTab == .search)
         }
         Spacer()
       }

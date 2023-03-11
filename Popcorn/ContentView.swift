@@ -31,6 +31,7 @@ struct ContentView: View {
   @State var selectedTab: Tabs = .popular
   
   @State private var showTabbar = true
+  @State private var showingSearchSheet = false
 
 
     @StateObject private var savedMovies = SavedMoviesState()
@@ -49,21 +50,47 @@ struct ContentView: View {
                         self.nowPlayingStatePopular.loadMovies(with: .popular)
                     }
                     .navigationBarTitle("Popular")
+                    .toolbar {
+                      HStack{
+                        Button {
+                          showingSearchSheet.toggle()
+                        } label: {
+                          Image("ic-search")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:34, height: 34)
+                        }
+                        .sheet(isPresented: $showingSearchSheet) {
+                          MovieSearchView()
+                        }
+                        Button {
+                          showingSearchSheet.toggle()
+                        } label: {
+                          Image("ic-settings")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:34, height: 34)
+                        }
+                        .sheet(isPresented: $showingSearchSheet) {
+                          MovieSearchView()
+                        }
+                      }
+                    }
                 }
                 // TAB POPULAR
                 
                 // TAB ESSENTIALS
                 if selectedTab == .essentials {
-                    SavedMoviesView()
-//                    ScrollView(showsIndicators: false) {
-//                        if nowPlayingStateEssentials.movies != nil {
-//                            MovieGridView(movies: nowPlayingStateEssentials.movies!)
-//                        }
-//                    }
-//                    .refreshable {
-//                        self.nowPlayingStateEssentials.loadMovies(with: .upcoming)
-//                    }
-//                    .navigationBarTitle("Upcoming")
+                    ScrollView(showsIndicators: false) {
+                        if nowPlayingStateEssentials.movies != nil {
+                            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2)
+                        }
+                    }
+                    .refreshable {
+                        self.nowPlayingStateEssentials.loadMovies(with: .upcoming)
+                    }
+                    .navigationBarTitle("Upcoming")
+                  
                 }
                 // TAB ESSENTIALS
                 
@@ -75,7 +102,8 @@ struct ContentView: View {
                 
                 // SEARCH
                 if selectedTab == .search {
-                    MovieSearchView()
+                  SavedMoviesView()
+                    //MovieSearchView()
                     //MovieSearchView()
                 }
                 // SEARCH
