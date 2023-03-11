@@ -13,7 +13,7 @@ struct SavedMoviesView: View {
         ScrollView(showsIndicators: false) {
           // check if movies saved
           if (self.savedMovies.movies.count == 0){}
-          MovieGridView(movies: self.savedMovies.movies, numberOfRows: 4)
+            MovieGridView(movies: self.savedMovies.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
         }
         .navigationBarTitle("Saved")
     }
@@ -22,5 +22,13 @@ struct SavedMoviesView: View {
 struct SavedMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         SavedMoviesView()
+    }
+}
+
+extension Sequence {
+    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>, using comparator: (T, T) -> Bool = (<)) -> [Element] {
+        return self.sorted { a, b in
+            comparator(a[keyPath: keyPath], b[keyPath: keyPath])
+        }
     }
 }
