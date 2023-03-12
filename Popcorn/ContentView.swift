@@ -119,6 +119,6 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(.dark)
-        .environmentObject(savedMovies)
+        .environmentObject(self.savedMovies)
     }
 }

@@ -8,32 +8,25 @@
 import Foundation
 import Combine
 
-class SavedMoviesState: ObservableObject {
-    @Published public var movies: Array<SavedMovie> = []
-    @Published private var storage: Set<SavedMovie> = Set(SavedMoviesDataStorage.load())
-    
-    public init() {
-        self.$storage
-            .map { Array($0) }
-            .assign(to: &self.$movies)
-    }
+final class SavedMoviesState: ObservableObject {
+    @Published var movies: Set<SavedMovie> = SavedMoviesDataStorage.load()
         
-    public func save(movie: Movie) {
+    func save(movie: Movie) {
         let savedMovie = SavedMovie(id: movie.id, title: movie.title, saved: Date(), artworkUrl: movie.posterURL)
-        self.storage.insert(savedMovie)
+        self.movies.insert(savedMovie)
         // TODO: Better error handling if save should fail.
-        try? SavedMoviesDataStorage.save(movies: Array(self.storage))
+        try? SavedMoviesDataStorage.save(movies: self.movies)
     }
     
-    public func delete(movieId: Int) {
-        if let idx = self.storage.firstIndex(where: { $0.id == movieId }) {
-            self.storage.remove(at: idx)
+    func delete(movieId: Int) {
+        if let idx = self.movies.firstIndex(where: { $0.id == movieId }) {
+            self.movies.remove(at: idx)
             // TODO: Better error handling if save should fail.
-            try? SavedMoviesDataStorage.save(movies: Array(self.storage))
+            try? SavedMoviesDataStorage.save(movies: self.movies)
         }
     }
     
-    public func isSaved(movieId: Int) -> Bool {
-        return self.storage.firstIndex { $0.id == movieId } != nil
+    func isSaved(movieId: Int) -> Bool {
+        return self.movies.firstIndex { $0.id == movieId } != nil
     }
 }

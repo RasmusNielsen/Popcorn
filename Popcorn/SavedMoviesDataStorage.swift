@@ -22,16 +22,16 @@ final class SavedMoviesDataStorage {
         return try? Data(contentsOf: fileURL)
     }
 
-    static func load() -> Array<SavedMovie> {
+    static func load() -> Set<SavedMovie> {
         guard
             let data = Self.fileData(),
-            let movies = try? Self.decoder.decode(Array<SavedMovie>.self, from: data) else {
-            return Array<SavedMovie>()
+            let movies = try? Self.decoder.decode(Set<SavedMovie>.self, from: data) else {
+            return []
         }
         return movies
     }
 
-    static func save(movies: Array<SavedMovie>) throws {
+    static func save(movies: Set<SavedMovie>) throws {
         let fileUrl = try Self.fileUrl()
         let data = try Self.encoder.encode(movies)
         try data.write(to: fileUrl)

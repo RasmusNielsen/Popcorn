@@ -9,13 +9,18 @@ import SwiftUI
 
 struct SavedMoviesView: View {
     @EnvironmentObject private var savedMovies: SavedMoviesState
+    @State private var movies: Set<SavedMovie> = []
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
           // check if movies saved
-          if (self.savedMovies.movies.count == 0){}
-            MovieGridView(movies: self.savedMovies.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
+          if (self.movies.count == 0){}
+            MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
         }
         .navigationBarTitle("Saved")
+        .onAppear {
+            self.movies = self.savedMovies.movies
+        }
     }
 }
 
