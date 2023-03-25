@@ -37,6 +37,7 @@ struct MovieSearchView: View {
                 self.movieSearchState.startObserve()
             }
             .navigationBarTitle("Search")
+          
         }
     }
 }
