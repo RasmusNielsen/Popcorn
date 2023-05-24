@@ -104,6 +104,7 @@ enum TabItem: String, CaseIterable {
 }
 
 struct CustomTabbarView: View {
+  
     var tabItems: [TabItem]
     @State var centerX : CGFloat = 0
     @Environment(\.verticalSizeClass) var size
@@ -166,6 +167,8 @@ struct BarButton : View {
     @Binding var selected : TabItem
     @Binding var centerX : CGFloat
     
+    let impactLight = UIImpactFeedbackGenerator(style: .light)
+
     var rect : CGRect
     var value: TabItem
     
@@ -174,6 +177,8 @@ struct BarButton : View {
             withAnimation(.spring()){
                 selected = value
                 centerX = rect.midX
+                impactLight.impactOccurred()
+
             }
         }, label: {
             VStack(spacing: -1){
