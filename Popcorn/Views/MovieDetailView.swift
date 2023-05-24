@@ -63,9 +63,7 @@ struct MovieDetailListView: View {
           let size = proxy.size
           let minY = proxy.frame(in: .named("SCROLL")).minY
           let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
-          
-          //Image("backdrop")
-          MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
+            MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
             .frame(width: size.width, height: size.height + (minY > 0 ? minY : 0 ))
             .clipped()
             .overlay(content: {
@@ -91,7 +89,6 @@ struct MovieDetailListView: View {
                         Text(movie.title)
                           .lineLimit(3)
                           .font(Font.custom("Outfit-SemiBold", size: 32))
-                          .lineSpacing(-12)
                         Spacer()
                       }
                       HStack{
@@ -109,8 +106,8 @@ struct MovieDetailListView: View {
                 .padding(.bottom, 0)
                 
                 // Moving with Scroll View
-                
                 .offset(y: minY < 0 ? minY : 0 )
+
               }
             })
             .offset(y: -minY)

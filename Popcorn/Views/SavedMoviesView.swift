@@ -12,15 +12,26 @@ struct SavedMoviesView: View {
     @State private var movies: Set<SavedMovie> = []
     
     var body: some View {
+      NavigationStack {
+        
         ScrollView(showsIndicators: false) {
           // check if movies saved
-          if (self.movies.count == 0){}
-            MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
+          if (self.movies.count == 0){
+            VStack{
+              Spacer()
+              Text("No movies on your shelf.")
+              Spacer()
+            }
+          }
+          MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
         }
-        .navigationBarTitle("Saved")
+        .navigationBarTitle("Shelf")
         .onAppear {
             self.movies = self.savedMovies.movies
         }
+      }
+      
+
     }
 }
 

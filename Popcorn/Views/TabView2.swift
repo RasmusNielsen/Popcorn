@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct TabView: View {
+struct TabView2: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct TabView_Previews: PreviewProvider {
+struct TabView2_Previews: PreviewProvider {
     static var previews: some View {
-        TabView()
+        TabView2()
     }
 }

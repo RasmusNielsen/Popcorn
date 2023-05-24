@@ -19,7 +19,6 @@ struct ContentView: View {
     ]
 
     UINavigationBar.appearance().largeTitleTextAttributes = attributes
-    
          //Use this if NavigationBarTitle is with displayMode = .inline
          UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Outfit-SemiBold", size: 20)!]
      }
@@ -32,9 +31,8 @@ struct ContentView: View {
   
   @State private var showTabbar = true
   @State private var showingSearchSheet = false
-
-
-    @StateObject private var savedMovies = SavedMoviesState()
+  
+  @StateObject private var savedMovies = SavedMoviesState()
     
     var body: some View {
         ZStack {
@@ -50,7 +48,7 @@ struct ContentView: View {
                         self.nowPlayingStatePopular.loadMovies(with: .popular)
                     }
                     .navigationBarTitle("Popular")
-                    .toolbar {
+                      .toolbar {
                       HStack{
                         Button {
                           showingSearchSheet.toggle()
