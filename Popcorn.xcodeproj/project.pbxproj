@@ -49,7 +49,6 @@
 		C6F191572A1BAC2300978278 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F191562A1BAC2300978278 /* MainView.swift */; };
 		C6F191592A1BB0E500978278 /* UpcomingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F191582A1BB0E500978278 /* UpcomingView.swift */; };
 		C6F1915B2A1C05F300978278 /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F1915A2A1C05F300978278 /* PopularView.swift */; };
-		C6FDB7D429ABB87B00578687 /* TabView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDB7D329ABB87B00578687 /* TabView2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,7 +96,6 @@
 		C6F191562A1BAC2300978278 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C6F191582A1BB0E500978278 /* UpcomingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingView.swift; sourceTree = "<group>"; };
 		C6F1915A2A1C05F300978278 /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
-		C6FDB7D329ABB87B00578687 /* TabView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +173,6 @@
 				C6C19E4029A950AD00268CCD /* BrowseView.swift */,
 				C6C19E4229AA109900268CCD /* MovieBackdropCarouselView.swift */,
 				C6C19E4529AA963600268CCD /* HeaderSubView.swift */,
-				C6FDB7D329ABB87B00578687 /* TabView2.swift */,
 				A7C65D6F29B66BDC006F1F34 /* SavedMoviesView.swift */,
 			);
 			path = Views;
@@ -344,7 +341,6 @@
 				C6C19E3129A4E5F900268CCD /* StickyHeader.swift in Sources */,
 				C6C19E4129A950AD00268CCD /* BrowseView.swift in Sources */,
 				C6C19E3929A7F1EE00268CCD /* MovieSearchView.swift in Sources */,
-				C6FDB7D429ABB87B00578687 /* TabView2.swift in Sources */,
 				C62013A329A245E1002F6143 /* MovieDetailView.swift in Sources */,
 				C627A39C299BB032005C6B31 /* MovieBackdropCard.swift in Sources */,
 				C64C48DD299B8DF100CA6D09 /* MovieStore.swift in Sources */,

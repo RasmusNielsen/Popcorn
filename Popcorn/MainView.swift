@@ -82,7 +82,7 @@ enum TabItem: String, CaseIterable {
         case .search:
             return "Search"
         case .storage:
-            return "Storage"
+            return "Shelf"
         }
     }
     
@@ -181,7 +181,7 @@ struct BarButton : View {
 
             }
         }, label: {
-            VStack(spacing: -1){
+            VStack(spacing: -2){
                 Image(value.icon)
                     .resizable()
                     .frame(width: 34, height: 34)
@@ -189,10 +189,8 @@ struct BarButton : View {
 
                 
                 Text(value.description)
-                    .font(.caption)
-                    .foregroundColor(.white)
                     .foregroundColor(Color("label"))
-                    .font(.custom("Outfit-Regular", size: 12))
+                    .font(.custom("Outfit-Regular", size: 13))
                     .opacity(selected == value ? 0 : 1)
             }
             .padding(.top)

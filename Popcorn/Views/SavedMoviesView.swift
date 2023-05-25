@@ -17,10 +17,14 @@ struct SavedMoviesView: View {
         ScrollView(showsIndicators: false) {
           // check if movies saved
           if (self.movies.count == 0){
-            VStack{
-              Spacer()
-              Text("No movies on your shelf.")
-              Spacer()
+            VStack(){
+              Image("ic-save")
+                .resizable()
+                .scaledToFit()
+                .frame(width:34, height: 34)
+              Text("No movies on your shelf")
+                .foregroundColor(Color("label"))
+                .font(.custom("Outfit-Regular", size: 16))
             }
           }
           MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4)
