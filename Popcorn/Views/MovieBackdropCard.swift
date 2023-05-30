@@ -18,9 +18,7 @@ struct MovieBackdropCard: View {
           ZStack(alignment: .leading) {
                 Rectangle()
                     .fill(Color.black.opacity(1))
-              
- 
-                
+   
                 if self.imageLoader.image != nil {
                     Image(uiImage: self.imageLoader.image!)
                     .resizable()

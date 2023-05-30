@@ -10,12 +10,12 @@ import SwiftUI
 struct PopularView: View {
   
   @ObservedObject private var nowPlayingStatePopular = MovieListState()
-
+ 
   var body: some View {
     NavigationStack {
       ScrollView(showsIndicators: false) {
         if nowPlayingStatePopular.movies != nil {
-          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2)
+          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: true)
         }
       }
       .navigationBarTitle("Popular")

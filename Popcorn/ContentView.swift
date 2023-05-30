@@ -41,7 +41,7 @@ struct ContentView: View {
                 if selectedTab == .popular {
                     ScrollView(showsIndicators: false) {
                         if nowPlayingStatePopular.movies != nil {
-                            MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2)
+                            MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: true)
                         }
                     }
                     .refreshable {
@@ -81,7 +81,7 @@ struct ContentView: View {
                 if selectedTab == .essentials {
                     ScrollView(showsIndicators: false) {
                         if nowPlayingStateEssentials.movies != nil {
-                            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2)
+                            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2, useEndText: true)
                         }
                     }
                     .refreshable {

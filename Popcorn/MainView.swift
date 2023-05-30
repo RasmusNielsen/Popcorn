@@ -33,9 +33,8 @@ struct MainView: View {
   var body: some View {
     
     VStack(spacing: 0){
-      TabView(selection: $selected){
-        
-        PopularView ()
+      TabView(selection: $selected){        
+        PopularView()
           .tag(tabItems[0])
           .ignoresSafeArea(.all)
         

@@ -10,6 +10,7 @@ import SwiftUI
 struct MovieGridView<T: MovieLike> {
     let movies: Array<T>
     let numberOfRows: Int
+    let useEndText: Bool
 }
 
 extension MovieGridView: View {
@@ -24,7 +25,28 @@ extension MovieGridView: View {
             }
         }
         .padding()
-        Spacer().frame(height: 70)
+      if useEndText {
+        EndMovieGrid()
+      }
     }
-  
+}
+
+struct EndMovieGrid : View {
+  var body: some View {
+    VStack(){
+      Image("ic-theend")
+        .resizable()
+        .scaledToFit()
+        .frame(width:100)
+      Text("You have reached the end of our ever-changing collection. 20 movies, daily. Come back soon for additional titles!")
+        .foregroundColor(Color("label"))
+        .font(.custom("Outfit-Regular", size: 14))
+        .multilineTextAlignment(.center)
+        .padding()
+
+    }
+    .padding(.top, -100)
+    .offset(y: 140)
+
+  }
 }

@@ -7,22 +7,11 @@
 
 import SwiftUI
 
-
-extension UINavigationController: UIGestureRecognizerDelegate {
-  override open func viewDidLoad() {
-      super.viewDidLoad()
-      interactivePopGestureRecognizer?.delegate = self
-  }
-  
-public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-  return true
-  }
-}
-
 struct MovieDetailView: View {
     
     let movieId: Int
     @ObservedObject private var movieDetailState = MovieDetailState()
+
     
     var body: some View {
         ZStack {
@@ -42,12 +31,24 @@ struct MovieDetailView: View {
     }
 }
 
+extension UINavigationController: UIGestureRecognizerDelegate {
+  override open func viewDidLoad() {
+      super.viewDidLoad()
+      interactivePopGestureRecognizer?.delegate = self
+  }
+  
+public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+  return true
+  }
+}
 
 struct MovieDetailListView: View {
   
   let movie: Movie
   @State private var selectedTrailer: MovieVideo?
   @EnvironmentObject private var savedMovies: SavedMoviesState
+  
+  @Environment(\.presentationMode) var presentationMode
   
   let imageLoader = ImageLoader()
   let imageLoader2 = ImageLoader()
@@ -56,7 +57,6 @@ struct MovieDetailListView: View {
     let isSaved = self.savedMovies.isSaved(movieId: self.movie.id)
     ScrollView(showsIndicators: false){
       VStack{
-        
         let height = 900 * 0.45
         GeometryReader{ proxy in
           
@@ -120,24 +120,40 @@ struct MovieDetailListView: View {
         
         // Button
 
-        Button {
+        HStack{
+          Button {
+            presentationMode.wrappedValue.dismiss()
+          } label: {
+            Image("ic-back")
+              .resizable()
+              .scaledToFit()
+              .frame(width:34, height: 34)
+          }
+          .tint(Color.white.opacity(0.1))
+          .buttonStyle(.borderedProminent)
+          .overlay(
+            RoundedRectangle(cornerRadius: 10)
+              .stroke(Color.white.opacity(0.1), lineWidth: 1)
+          )
+
+          Button {
             isSaved ? self.savedMovies.delete(movieId: self.movie.id) : self.savedMovies.save(movie: self.movie)
-        } label: {
-          Spacer()
+          } label: {
+            Spacer()
             Image(isSaved ? "ic-saved" : "ic-save")
-            .resizable()
-            .scaledToFit()
-            .frame(width:34, height: 34)
-          Text("Bookmark")
-          Spacer()
-        }
-        .tint(Color.white.opacity(0.1))
-        .buttonStyle(.borderedProminent)
-        .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.white.opacity(0.1), lineWidth: 1)
-            )
-        .padding()
+              .resizable()
+              .scaledToFit()
+              .frame(width:34, height: 34)
+            Text("Add to collection")
+            Spacer()
+          }
+          .tint(Color.white.opacity(0.1))
+          .buttonStyle(.borderedProminent)
+          .overlay(
+            RoundedRectangle(cornerRadius: 10)
+              .stroke(Color.white.opacity(0.1), lineWidth: 1)
+          )
+        }.padding()
         
         HStack {
           Text(movie.genreText)
@@ -249,7 +265,7 @@ struct MovieDetailListView: View {
 
                 
               }
-            }
+                 }
         
           }
           
