@@ -69,16 +69,16 @@ extension UIApplication {
 
 enum TabItem: String, CaseIterable {
     case popular
-    case trending
+    case upcoming
     case search
     case storage
-    
+      
     var description: String {
         switch self {
         case .popular:
             return "Popular"
-        case .trending:
-            return "Trending"
+        case .upcoming:
+            return "Upcoming"
         case .search:
             return "Search"
         case .storage:
@@ -91,7 +91,7 @@ enum TabItem: String, CaseIterable {
         case .popular:
             return "ic-star"
             
-        case .trending:
+        case .upcoming:
             return "ic-trending"
             
         case .search:
@@ -109,6 +109,9 @@ struct CustomTabbarView: View {
     @State var centerX : CGFloat = 0
     @Environment(\.verticalSizeClass) var size
     @Binding var selected: TabItem
+  
+  @Namespace private var animation
+
     
     init(tabItems: [TabItem], selected: Binding<TabItem>) {
         UITabBar.appearance().isHidden = true
@@ -118,39 +121,28 @@ struct CustomTabbarView: View {
     
     var body: some View {
     
-      ZStack{
-        
-        
-        Image("ribbon")
-          .resizable()
-          .scaledToFit()
-          .frame(width: 75)
-          .offset(x: centerX - 196, y: -2)
-          .ignoresSafeArea()
-
         
         HStack(spacing: 0){
+          
           ForEach(tabItems,id: \.self){value in
-            GeometryReader{ proxy in
-              BarButton(selected: $selected, centerX: $centerX, rect: proxy.frame(in: .global), value: value)
-                .onAppear(perform: {
-                  if value == tabItems.first{
-                    centerX = proxy.frame(in: .global).midX
+              GeometryReader{ proxy in
+                BarButton(selected: $selected, centerX: $centerX, rect: proxy.frame(in: .global), value: value, animation: animation)
+                  .onAppear(perform: {
+                    if value == tabItems.first{
+                      centerX = proxy.frame(in: .global).midX
+                    }
+                  })
+                  .onChange(of: size) { (_) in
+                    if selected == value{
+                      centerX = proxy.frame(in: .global).midX
+                    }
                   }
-                })
-                .onChange(of: size) { (_) in
-                  if selected == value{
-                    centerX = proxy.frame(in: .global).midX
-                  }
-                }
-            }
-            .frame(width: 70, height: 50)
-            if value != tabItems.last{Spacer(minLength: 0)}
-          }
+              }
+              .frame(width: 70, height: 50)
+              if value != tabItems.last{Spacer(minLength: 0)}
+           }
+          
         }
-   
-        
-      }
         .padding(.horizontal,25)
         .padding(.bottom,UIApplication.safeAreaInsets.bottom == 0 ? 15 : UIApplication.safeAreaInsets.bottom)
         .background(.ultraThinMaterial)
@@ -172,30 +164,42 @@ struct BarButton : View {
     var rect : CGRect
     var value: TabItem
     
+    var animation : Namespace.ID
+    
     var body: some View{
         Button(action: {
-            withAnimation(.spring()){
+            withAnimation(.interpolatingSpring(stiffness: 2000, damping: 70)){
                 selected = value
                 centerX = rect.midX
                 impactLight.impactOccurred()
-
             }
         }, label: {
-            VStack(spacing: -2){
-                Image(value.icon)
-                    .resizable()
-                    .frame(width: 34, height: 34)
-                    .offset(y: -4)
-
-                
-                Text(value.description)
-                    .foregroundColor(Color("label"))
-                    .font(.custom("Outfit-Regular", size: 13))
-                    .opacity(selected == value ? 0 : 1)
+  
+          ZStack{
+            if (selected == value){
+              Image("ribbon")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 75)
+                .offset(x: 0, y: -13)
+                .ignoresSafeArea()
+                .matchedGeometryEffect(id: "ribbon", in: animation)
             }
+            
+            VStack(spacing: -2){
+              Image(value.icon)
+                .resizable()
+                .frame(width: 30, height: 30)
+                .offset(y: selected == value ? 0 : -5)
+              
+              Text(value.description)
+                .foregroundColor(Color("label"))
+                .font(.custom("Outfit-Regular", size: 14))
+                .opacity(selected == value ? 0 : 1)
+                .offset(y: -3)
+            }}
             .padding(.top)
             .frame(width: 70, height: 50)
-            .offset(y: selected == value ? 5 : 0)
         })
     }
 }

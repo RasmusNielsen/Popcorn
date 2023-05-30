@@ -12,8 +12,13 @@ struct MovieSearchView: View {
     @ObservedObject var movieSearchState = MovieSearchState()
     
     var body: some View {
-        NavigationView {
-            List {
+      
+      let spacing: CGFloat = 10
+      let columns = Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2)
+    
+      
+      NavigationStack {
+        ScrollView(showsIndicators: false) {
                 SearchBarView(placeholder: "Search movies", text: self.$movieSearchState.query)
                     .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
                 
@@ -22,13 +27,13 @@ struct MovieSearchView: View {
                 }
                 
                 if self.movieSearchState.movies != nil {
+                  LazyVGrid(columns: columns, spacing: spacing) {
+             
                     ForEach(self.movieSearchState.movies!) { movie in
-                        NavigationLink(destination: MovieDetailView(movieId: movie.id)) {
-                            VStack(alignment: .leading) {
-                                Text(movie.title)
-                                Text(movie.yearText)
-                            }
-                        }
+                      NavigationLink(destination: MovieDetailView(movieId: movie.id)){
+                          MoviePosterCard(url: movie.artworkUrl)
+                      }
+                    }
                     }
                 }
                 
