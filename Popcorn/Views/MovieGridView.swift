@@ -17,18 +17,22 @@ extension MovieGridView: View {
     var body: some View {
         let spacing: CGFloat = 10
         let columns = Array(repeating: GridItem(.flexible(), spacing: spacing), count: numberOfRows)
+      ScrollView(showsIndicators: false) {
+        
         LazyVGrid(columns: columns, spacing: spacing) {
-            ForEach(self.movies) { movie in
-                NavigationLink(destination: MovieDetailView(movieId: movie.id)){
-                    MoviePosterCard(url: movie.artworkUrl)
-                }
+          
+          ForEach(self.movies) { movie in
+            NavigationLink(destination: MovieDetailView(movieId: movie.id)){
+              MoviePosterCard(url: movie.artworkUrl)
             }
-        }
+          }
+        }}
         .padding()
       if useEndText {
         EndMovieGrid()
       }
     }
+  
 }
 
 struct EndMovieGrid : View {
@@ -40,7 +44,7 @@ struct EndMovieGrid : View {
         .frame(width:100)
       Text("You have reached the end of our ever-changing collection. 20 movies, daily. Come back soon for additional titles!")
         .foregroundColor(Color("label"))
-        .font(.custom("Outfit-Regular", size: 14))
+        .font(.custom("Outfit-Regular", size: 16))
         .multilineTextAlignment(.center)
         .padding()
 
