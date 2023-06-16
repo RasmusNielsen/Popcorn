@@ -17,11 +17,8 @@ struct PopularView: View {
           MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: false)
         }
       
-     
     } .navigationBarTitle("Popular")
       .onAppear{self.nowPlayingStatePopular.loadMovies(with: .popular)}
-    
-
   }
 }
 

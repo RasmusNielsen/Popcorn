@@ -189,13 +189,13 @@ struct BarButton : View {
               Image(value.icon)
                 .resizable()
                 .frame(width: 30, height: 30)
-                .offset(y: selected == value ? 0 : -5)
+                .offset(y: selected == value ? 0 : -7)
               
               Text(value.description)
                 .foregroundColor(Color("label"))
-                .font(.custom("Outfit-Regular", size: 14))
+                .font(.custom("Outfit-Regular", size: 12))
                 .opacity(selected == value ? 0 : 1)
-                .offset(y: -3)
+                .offset(y: -4)
             }}
             .padding(.top)
             .frame(width: 70, height: 50)

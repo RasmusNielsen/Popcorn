@@ -11,8 +11,8 @@ struct MovieDetailView: View {
     
     let movieId: Int
     @ObservedObject private var movieDetailState = MovieDetailState()
-
-    
+  
+  
     var body: some View {
         ZStack {
             LoadingView(isLoading: self.movieDetailState.isLoading, error: self.movieDetailState.error) {
@@ -42,8 +42,17 @@ public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognize
   }
 }
 
+struct TestView: View {
+  var body: some View {
+    Image("cover")
+  }
+}
+
+
+
 struct MovieDetailListView: View {
   
+ 
   let movie: Movie
   @State private var selectedTrailer: MovieVideo?
   @EnvironmentObject private var savedMovies: SavedMoviesState
@@ -52,6 +61,9 @@ struct MovieDetailListView: View {
   
   let imageLoader = ImageLoader()
   let imageLoader2 = ImageLoader()
+
+
+  var shareMoviePosterView = TestView()
 
   var body: some View {
     let isSaved = self.savedMovies.isSaved(movieId: self.movie.id)
@@ -114,15 +126,12 @@ struct MovieDetailListView: View {
         }.padding(.top, -34)
         
         .frame(height: height)
-        
-        
-        //MovieDetailImage(imageLoader: imageLoader, imageURL: self.movie.backdropURL)
-        
-        // Button
-
         HStack{
-          Button {
-            presentationMode.wrappedValue.dismiss()
+            Button {
+            self.presentationMode.wrappedValue.dismiss()
+             
+            
+                
           } label: {
             Image("ic-back")
               .resizable()
@@ -153,6 +162,54 @@ struct MovieDetailListView: View {
             RoundedRectangle(cornerRadius: 10)
               .stroke(Color.white.opacity(0.1), lineWidth: 1)
           )
+       
+          //ShareLink(item: Image(uiImage: image()), preview:SharePreview(movie.title, image: Image(uiImage:image()))){}
+       
+          Button {
+          //self.presentationMode.wrappedValue.dismiss()
+            let chartView = ShareMoviePosterImage(imageLoader: imageLoader2, imageURL: self.movie.posterURL)
+            let renderer = ImageRenderer(content: chartView)
+            renderer.scale = UIScreen.main.scale
+            let image = renderer.uiImage
+            
+            let avController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(avController, animated: true, completion: nil)
+              
+            //if let image = renderer.uiImage { UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)}
+              //
+              
+        } label: {
+          Image("ic-share")
+            .resizable()
+            .scaledToFit()
+            .frame(width:34, height: 34)
+        }
+        .tint(Color.white.opacity(0.1))
+        .buttonStyle(.borderedProminent)
+        .overlay(
+          RoundedRectangle(cornerRadius: 10)
+            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+        )
+//
+//          ShareLink(item: Image(uiImage: generateSnapshot()), preview:SharePreview(movie.title, image: Image(uiImage:generateSnapshot()))){
+//
+//            HStack{
+//              Image("ic-share")
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width:34, height: 34)
+//                .padding(7)
+//            }
+//
+//            .background(Color.white.opacity(0.1))
+//            .cornerRadius(10)
+//            .overlay(
+//              RoundedRectangle(cornerRadius: 10)
+//                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+//            )
+//          }
+          
+          
         }.padding()
         
         HStack {
@@ -354,6 +411,43 @@ struct MoviePosterImage: View {
         }
     }
 }
+
+
+struct ShareMoviePosterImage: View {
+    @ObservedObject var imageLoader: ImageLoader
+    let imageURL: URL
+    
+    var body: some View {
+        ZStack {
+          //Background Image
+          if self.imageLoader.image != nil {Image(uiImage: self.imageLoader.image!)
+              .resizable()
+              .frame(width: 800, height: 800)
+              .aspectRatio(contentMode: .fit)
+              .opacity(0.15)
+          }
+          
+          if self.imageLoader.image != nil {Image(uiImage: self.imageLoader.image!)
+              .resizable()
+              .frame(width: 400, height: 600)
+              .cornerRadius(30)
+              .overlay(
+                      RoundedRectangle(cornerRadius: 30)
+                        .stroke(.white.opacity(0.1), lineWidth: 1)
+                  )
+          }
+          
+        }
+        .frame(width: 800, height: 800)
+        .background(Color.black)
+       
+        .onAppear {
+            self.imageLoader.loadImage(with: self.imageURL)
+        }
+    }
+}
+
+
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {

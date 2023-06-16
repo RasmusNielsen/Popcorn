@@ -209,7 +209,6 @@
 		C6E43D46299950F300EFE969 /* Popcorn */ = {
 			isa = PBXGroup;
 			children = (
-				A7C65D6B29B66182006F1F34 /* SavedMoviesDataStorage.swift */,
 				C64C48E5299B962900CA6D09 /* Bindings */,
 				C627A39D299BB36C005C6B31 /* Resources */,
 				C64C48E2299B953B00CA6D09 /* Views */,
@@ -217,6 +216,7 @@
 				C64C48D9299B81DB00CA6D09 /* Services */,
 				C64C48D6299B80D700CA6D09 /* Models */,
 				C64C48D5299ADFF200CA6D09 /* Info.plist */,
+				A7C65D6B29B66182006F1F34 /* SavedMoviesDataStorage.swift */,
 				C6E43D47299950F300EFE969 /* PopcornApp.swift */,
 				C6E43D57299AC61300EFE969 /* TabbarButton.swift */,
 				C6E43D55299968E900EFE969 /* CustomTabbar.swift */,
@@ -481,6 +481,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Popcorn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Popcorn;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Popcorn would like to save a photo to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = s;
@@ -514,6 +517,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Popcorn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Popcorn;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Popcorn would like to save a photo to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = s;

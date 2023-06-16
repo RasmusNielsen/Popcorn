@@ -13,16 +13,12 @@ struct UpcomingView: View {
   
     var body: some View {
       NavigationStack {
-        ScrollView(showsIndicators: false) {
           if nowPlayingStateEssentials.movies != nil {
-            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2, useEndText: true)
+            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2, useEndText: false)
           }
-        }
-        .navigationBarTitle("Upcoming")
+  
+      }  .navigationBarTitle("Upcoming")
         .onAppear{self.nowPlayingStateEssentials.loadMovies(with: .upcoming)}
-      }
-      
-
     }
 }
 
