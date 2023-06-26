@@ -8,34 +8,21 @@
 import SwiftUI
 
 struct MoviePosterCard: View {
+    let url: URL
+    let borderRadius: CGFloat = 8;
   
-  let borderRadius: CGFloat = 8;
-
-  
-  let url: URL
-  @ObservedObject var imageLoader = ImageLoader()
-  
-  var body: some View {
-    ZStack {
-      if self.imageLoader.image != nil {
-        Image(uiImage: self.imageLoader.image!)
-          .resizable()
-          .scaledToFit()
-      } else {
-        Image("cover")
-          .resizable()
-          .scaledToFit()
-      }
-    }.cornerRadius(borderRadius)
-      .overlay(
-              RoundedRectangle(cornerRadius: borderRadius)
-                .stroke(.white.opacity(0.1), lineWidth: 1)
-          )
-
-    .onAppear {
-        self.imageLoader.loadImage(with: self.url)
-      }
-  }
+    var body: some View {
+        AsyncImage(url: self.url) { image in
+            image.resizable().aspectRatio(contentMode: .fill)
+        } placeholder: {
+            Image("cover").resizable().scaledToFit()
+        }
+        .cornerRadius(self.borderRadius)
+        .overlay {
+          RoundedRectangle(cornerRadius: self.borderRadius)
+              .stroke(.white.opacity(0.1), lineWidth: 1)
+        }
+    }
 }
 
 struct MoviePosterCard_Previews: PreviewProvider {
