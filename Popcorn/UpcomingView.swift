@@ -14,7 +14,7 @@ struct UpcomingView: View {
     var body: some View {
       NavigationStack {
           if nowPlayingStateEssentials.movies != nil {
-            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2, useEndText: false)
+            MovieGridView(movies: nowPlayingStateEssentials.movies!, numberOfRows: 2, useEndText: false, navTitle: "Upcoming")
           }
   
       }  .navigationBarTitle("Upcoming")

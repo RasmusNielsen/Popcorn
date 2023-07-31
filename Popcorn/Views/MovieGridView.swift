@@ -11,6 +11,7 @@ struct MovieGridView<T: MovieLike> {
     let movies: Array<T>
     let numberOfRows: Int
     let useEndText: Bool
+    let navTitle: String
 }
 
 extension MovieGridView: View {
@@ -26,7 +27,9 @@ extension MovieGridView: View {
               MoviePosterCard(url: movie.artworkUrl)
             }
           }
-        }}
+        }
+      }.navigationBarTitle(navTitle)
+
         .padding()
       if useEndText {
         EndMovieGrid()

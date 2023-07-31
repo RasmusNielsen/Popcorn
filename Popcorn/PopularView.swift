@@ -14,7 +14,7 @@ struct PopularView: View {
   var body: some View {
     NavigationStack {
         if nowPlayingStatePopular.movies != nil {
-          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: false)
+          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: false, navTitle: "Popular")
         }
       
     } .navigationBarTitle("Popular")
