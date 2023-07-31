@@ -13,12 +13,13 @@ struct PopularView: View {
 
   var body: some View {
     NavigationStack {
+      ScrollView(showsIndicators: false) {
         if nowPlayingStatePopular.movies != nil {
-          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: false, navTitle: "Popular")
+          MovieGridView(movies: nowPlayingStatePopular.movies!, numberOfRows: 2, useEndText: false)
         }
-      
-    } .navigationBarTitle("Popular")
-      .onAppear{self.nowPlayingStatePopular.loadMovies(with: .popular)}
+      }      .navigationBarTitle("Popular")
+    }
+    .onAppear{self.nowPlayingStatePopular.loadMovies(with: .popular)}
   }
 }
 

@@ -30,7 +30,7 @@ struct SavedMoviesView: View {
             .multilineTextAlignment(.center)
             .padding()
           }
-          MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4, useEndText: false, navTitle: "Shelf")
+          MovieGridView(movies: self.movies.sorted(by: \.saved, using: >), numberOfRows: 4, useEndText: false)
         }
         
         .navigationBarTitle("Shelf")

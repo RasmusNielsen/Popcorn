@@ -11,14 +11,12 @@ struct MovieGridView<T: MovieLike> {
     let movies: Array<T>
     let numberOfRows: Int
     let useEndText: Bool
-    let navTitle: String
 }
 
 extension MovieGridView: View {
     var body: some View {
         let spacing: CGFloat = 10
         let columns = Array(repeating: GridItem(.flexible(), spacing: spacing), count: numberOfRows)
-      ScrollView(showsIndicators: false) {
         
         LazyVGrid(columns: columns, spacing: spacing) {
           
@@ -27,8 +25,8 @@ extension MovieGridView: View {
               MoviePosterCard(url: movie.artworkUrl)
             }
           }
-        }
-      }.navigationBarTitle(navTitle)
+        
+      }
 
         .padding()
       if useEndText {
